@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <array name="drawable_array">
+
+        <item>@drawable/icon_physical</item>
+        <item>@drawable/icon_time</item>
+
+    </array>
+</resources>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/lightgray">
+
+
+    <cn.liaojh.zuzu.widget.MyToolBar
+            android:id="@+id/second_toolbat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:title="@string/releasephysical"
+            android:background="?attr/colorPrimary"
+            app:isShowRelative="true"
+            app:isShowRightNavitive="true"
+            app:isShowLeftButton="true"
+            android:minHeight="50dp"/>
+
+    <TextView
+            android:id="@+id/second_category"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:text="物品分类"
+            android:layout_gravity="center"
+            android:gravity="left|center_vertical"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:textSize="18dp"
+            android:drawableRight="@drawable/icon_reight_gray"
+            />
+
+    <View style="@style/line_vertical"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/second_decrease"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="吊炸天的描述，让人不买不行"
+            android:gravity="top|left"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            android:layout_weight="2"
+            />
+
+        <View style="@style/line_vertical"/>
+
+        <EditText
+            android:id="@+id/response"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:hint="你要是弄坏我的东西，你就得......"
+            android:gravity="top|left"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:textColor="@color/black"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/second_map"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:text="发布地点"
+        android:layout_gravity="center"
+        android:gravity="left|center_vertical"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:textSize="13dp"
+        android:drawableRight="@drawable/icon_status"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/select_view"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"
+                android:background="#e0000000"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <EditText
+                    android:id="@+id/second_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="19dp"
+                    android:textColor="@color/black"
+                    android:hint="价格:￥ 000"/>
+
+                <TextView
+                    android:id="@+id/second_sure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="确认发布"
+                    android:textSize="19dp"
+                    android:textColor="@color/white"
+                    android:background="?attr/colorPrimary"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

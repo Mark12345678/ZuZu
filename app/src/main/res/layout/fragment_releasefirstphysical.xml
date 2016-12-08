@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/lightgray">
+
+    <cn.liaojh.zuzu.widget.MyToolBar
+            android:id="@+id/first_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:isShowRelative="true"
+            app:isShowleftNavitive="true"
+            app:isShowLeftButton="true"
+            android:minHeight="50dp"/>
+
+
+    <EditText
+        android:id="@+id/first_name"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:hint="一个吊炸天的名字，可以引起关注"
+        android:gravity="left|center_vertical"
+        android:textSize="17dp"
+        android:textColor="@color/black"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        />
+
+    <View style="@style/line_vertical"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/first_nest"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="?attr/colorPrimary"
+            android:text="下一步"
+            android:textSize="20dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:id="@+id/first_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="温馨提示,最多只可以上传9张图片，么么哒 (,,• ₃ •,,) "
+            android:layout_above="@id/first_nest"
+            />
+
+        <GridView
+            android:id="@+id/first_grid"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@color/white"
+            android:layout_above="@id/first_prompt"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            android:numColumns="4"
+            android:columnWidth="90dp"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp"
+            />
+
+    </RelativeLayout>
+</LinearLayout>

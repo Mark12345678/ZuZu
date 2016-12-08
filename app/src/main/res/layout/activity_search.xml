@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/serach_frag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/grey2"
+    android:id="@+id/search_relat"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/serach_rl1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.SearchView
+            android:layout_weight="10"
+            android:id="@+id/search_text"
+            android:layout_width="match_parent"
+            android:hint="我要搜索的内容……"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp"
+            style="@style/search_view"
+            android:layout_height="40dp" />
+
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_below="@id/serach_rl1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/search_history"
+                android:layout_width="match_parent"
+                android:text="历史记录"
+                android:textSize="15dp"
+                android:textColor="@color/grey"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:layout_height="40dp" />
+
+            <ListView
+                android:background="@color/white"
+                android:id="@+id/search_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </ListView>
+
+        </LinearLayout>
+
+        <ListView
+            android:background="@drawable/history_item"
+            android:id="@+id/search_prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </ListView>
+
+    </FrameLayout>
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/clear_history"
+                android:text="清除历史记录"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/show_more_history"
+                android:text="显示更多"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_height="30dp" />
+
+        </LinearLayout>
+</RelativeLayout>
+
+</FrameLayout>

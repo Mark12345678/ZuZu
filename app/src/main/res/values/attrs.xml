@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--粘性菜单的属性-->
+    <declare-styleable name="GooeyMenu">
+        <attr name="no_of_menu" format="integer" />
+        <attr name="fab_radius" format="dimension" />
+        <attr name="menu_radius" format="dimension" />
+        <attr name="gap_between_menu_fab" format="dimension" />
+        <attr name="menu_drawable" format="reference" />
+    </declare-styleable>
+
+    <!--标题栏的属性-->
+    <declare-styleable name="MyToolBar">
+        <attr name="rightButtonIcon" format="reference"/>
+        <attr name="isShowSearchView" format="boolean"/>
+        <attr name="rightButtonText" format="string"/>
+        <attr name="isShowleftNavitive" format="boolean"></attr>
+        <attr name="isShowRightNavitive" format="boolean"></attr>
+        <attr name="isShowRelative" format="boolean"></attr>
+        <attr name="isShowLeftButton" format="boolean"></attr>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <cn.liaojh.zuzu.widget.MyToolBar
+        android:id="@+id/home_toolbar"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:isShowSearchView="true"
+        />
+
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/home_slider"
+        android:layout_width="match_parent"
+        app:indicator_visibility="visible"
+        app:pager_animation_span="1100"
+        android:layout_height="180dp"/>
+
+
+    <com.cjj.MaterialRefreshLayout
+        android:id="@+id/home_materialRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        app:overlay="true"
+        app:wave_show="true"
+        app:wave_color="#90ffffff"
+        app:progress_colors="@array/material_colors"
+        app:wave_height_type="higher">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/home_recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </com.cjj.MaterialRefreshLayout>
+
+</LinearLayout>

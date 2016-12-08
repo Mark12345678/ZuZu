@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bg_color">
+
+    <cn.liaojh.zuzu.widget.MyToolBar
+        android:id="@+id/reg_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:isShowLeftButton="true"
+        android:title="注册">
+
+    </cn.liaojh.zuzu.widget.MyToolBar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/selector_view_block"
+        android:padding="@dimen/largePadding">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/largePadding"
+            android:paddingBottom="@dimen/largePadding"
+            >
+            <TextView
+                android:id="@+id/reg_countries"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="国家或者地区"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:id="@+id/txtCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中国"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
+                />
+
+        </RelativeLayout>
+
+        <View
+            style="@style/line_vertical"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/largePadding"
+            android:paddingBottom="@dimen/largePadding"
+            android:orientation="horizontal"
+            >
+
+
+            <TextView
+                android:id="@+id/txtCountryCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+86"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginRight="10dp"
+
+                />
+
+            <View
+                style="@style/line_horizontal"/>
+
+            <cn.liaojh.zuzu.widget.ClearEditText
+                android:id="@+id/reg_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/editText_base"
+                android:hint="请输入常用手机号码"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:inputType="phone"/>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/largePadding"
+            android:paddingBottom="@dimen/largePadding"
+            android:orientation="horizontal"
+            >
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="密码"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginRight="10dp"
+                />
+
+            <View
+                style="@style/line_horizontal"/>
+
+            <cn.liaojh.zuzu.widget.ClearEditText
+                android:id="@+id/reg_pwd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/editText_base"
+                android:hint="请输入密码"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:inputType="textPassword"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+
+            >
+
+            <cn.liaojh.zuzu.widget.ClearEditText
+                android:id="@+id/reg_code"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                style="@style/editText_base"
+                android:hint="请输入验证码"
+                android:inputType="number"
+                android:maxLength="4"/>
+
+
+            <Button
+                android:id="@+id/reg_reSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/smssdk_resend_identify_code"
+                style="@style/smallGreenButton"
+
+                />
+        </LinearLayout>
+
+        <View style="@style/line_vertical"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_reg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/bigRedButton"
+        android:text="注  册"
+        android:layout_marginTop="30dp"
+        android:layout_margin="20dp"
+        />
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ZuZu</string>
+    <string name="home">首页</string>
+    <string name="catagory">分类</string>
+    <string name="release">  </string>
+    <string name="rent">租单</string>
+    <string name="mine">我的</string>
+    <string name="to_login">请先登录</string>
+    <string name="to_be_recycled">待收回物品</string>
+    <string name="for_rent">可租的物品</string>
+    <string name="chat">聊天记录</string>
+    <string name="record">租赁记录</string>
+    <string name="logout">退出登录</string>
+    <string name="smssdk_resend_identify_code">发送验证码</string>
+    <string name="title_activity_release">ReleaseActivity</string>
+    <string name="releasephysical">发布物品</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
