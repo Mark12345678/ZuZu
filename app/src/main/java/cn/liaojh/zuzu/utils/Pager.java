@@ -65,7 +65,7 @@ public  class Pager<T> {
                 if(builder.pageIndex<builder.totalPage)
                     loadMore();
                 else{
-                    ToastUtils.show(builder.mContext , "无更多数据");
+                    ToastUtils.show(builder.mContext , "无更多数据啦");
                     materialRefreshLayout.finishRefreshLoadMore();
                     materialRefreshLayout.setLoadMore(false);
                 }

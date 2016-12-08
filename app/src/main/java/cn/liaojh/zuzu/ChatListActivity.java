@@ -58,6 +58,7 @@ public class ChatListActivity extends AppCompatActivity {
                 finish();
             }
         });
+        //这是一个测试语句
         myToolBar.setTitle("好友列表");
 
     }

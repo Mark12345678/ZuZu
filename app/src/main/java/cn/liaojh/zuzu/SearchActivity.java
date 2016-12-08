@@ -74,7 +74,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
 
-        // 设置搜索文本监听
+
         txt_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法
             @Override
