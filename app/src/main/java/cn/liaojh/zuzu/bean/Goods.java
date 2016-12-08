@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Liaojh on 2016/10/27.
  */
 
-public class Goods implements Serializable {
+public class Goods implements Serializable,Comparable {
 
     private Integer id;
 
@@ -116,5 +116,14 @@ public class Goods implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+
+        Goods other = (Goods) o;
+
+
+        return this.getId().compareTo(other.getId());
     }
 }

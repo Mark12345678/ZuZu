@@ -19,6 +19,8 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.okhttp.Response;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -179,6 +181,8 @@ public class HomeFragment extends BaseFragment{
         @Override
         public void load(final List<Goods> datas, int totalPage, int totalCount) {
 
+            Collections.reverse(datas);  //按照age降序 23,22
+
             mAdapter = new HomeAdapter(getActivity(),datas);
             mRecyclerView.setAdapter(mAdapter);
             mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
@@ -204,6 +208,7 @@ public class HomeFragment extends BaseFragment{
 
         @Override
         public void refresh(List<Goods> datas, int totalPage, int totalCount) {
+            Collections.reverse(datas);  //按照age降序 23,22
             mAdapter.clearData();
             mAdapter.addData(datas);
             mRecyclerView.scrollToPosition(0);
@@ -211,6 +216,7 @@ public class HomeFragment extends BaseFragment{
 
         @Override
         public void loadMore(List<Goods> datas, int totalPage, int totalCount) {
+            Collections.reverse(datas);  //按照age降序 23,22
             mAdapter.addData(mAdapter.getmDatas().size(),datas);
             mRecyclerView.scrollToPosition(mAdapter.getmDatas().size());
         }
