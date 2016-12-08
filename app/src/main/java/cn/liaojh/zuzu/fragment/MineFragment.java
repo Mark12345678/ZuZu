@@ -214,6 +214,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
             if (user != null){
                 btn_logout.setVisibility(View.VISIBLE);
                 txt_username.setText(user.getPhone());
+                setUserHead(headView);
             }
         }
 

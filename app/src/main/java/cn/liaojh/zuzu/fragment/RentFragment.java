@@ -36,7 +36,8 @@ public class RentFragment extends BaseFragment {
 
     MyToolBar rent_mytoolbat;
     ListView listView ;
-    TextView textView1,textView2,textView3,textView4;
+    //分别是喜欢，待收，待还
+    TextView textView1,textView2,textView3;
 
     OkHttpHelper okHttpHelper;
 
@@ -50,7 +51,9 @@ public class RentFragment extends BaseFragment {
         setHasOptionsMenu(true);
         initView(view);
         okHttpHelper = OkHttpHelper.getInstance();
-        getLikeGoods();
+        if(ZuZuApplication.getInstance().getUser() != null) {
+            getLikeGoods();
+        }
     }
 
     public void initView(View view){
@@ -59,7 +62,6 @@ public class RentFragment extends BaseFragment {
         textView1 = (TextView) view.findViewById(R.id.text1);
         textView2 = (TextView) view.findViewById(R.id.text2);
         textView3 = (TextView) view.findViewById(R.id.text3);
-        textView4 = (TextView) view.findViewById(R.id.text4);
         listView = (ListView) view.findViewById(R.id.rent_list);
     }
 
