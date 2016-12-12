@@ -217,6 +217,7 @@ public class HomeFragment extends BaseFragment{
         @Override
         public void loadMore(List<Goods> datas, int totalPage, int totalCount) {
             Collections.reverse(datas);  //按照age降序 23,22
+            mAdapter.clearData();
             mAdapter.addData(mAdapter.getmDatas().size(),datas);
             mRecyclerView.scrollToPosition(mAdapter.getmDatas().size());
         }
