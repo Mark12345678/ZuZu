@@ -1,5 +1,6 @@
 package cn.liaojh.zuzu;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import cn.liaojh.zuzu.fragment.HomeFragment;
 import cn.liaojh.zuzu.fragment.MineFragment;
 import cn.liaojh.zuzu.fragment.ReleaseFragment;
 import cn.liaojh.zuzu.fragment.RentFragment;
+import cn.liaojh.zuzu.utils.AskPermission;
 import cn.liaojh.zuzu.utils.ToastUtils;
 import cn.liaojh.zuzu.widget.FragmentTabHost;
 import cn.liaojh.zuzu.widget.GooeyMenu;
@@ -43,6 +45,9 @@ public class MainActivity extends AppActivity implements GooeyMenu.GooeyMenuInte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //询文照相机权限
+        AskPermission.askPremission(MainActivity.this,new String[]{Manifest.permission.CAMERA});
 
         initTab();
         initView();

@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import cn.liaojh.zuzu.utils.AskPermission;
 import cn.liaojh.zuzu.utils.ToastUtils;
 
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
@@ -57,8 +58,11 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //询文照相机权限
+        AskPermission.askPremission(PhotoActivity.this,new String[]{Manifest.permission.CAMERA});
         setContentView(R.layout.activity_photo);
-        quan();
+
         RefWatcher refWatcher = ZuZuApplication.getRefWatcher(this);
         refWatcher.watch(this);
 
@@ -241,20 +245,6 @@ public class PhotoActivity extends AppCompatActivity {
         return degree;
     }
 
-    public void quan(){
-        if(ContextCompat.checkSelfPermission(PhotoActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-            // Should we show an explanation?
-            if(ActivityCompat.shouldShowRequestPermissionRationale(PhotoActivity.this,Manifest.permission.CAMERA)){
-                ToastUtils.show(PhotoActivity.this,"你不给这个权限，你将不能拍照");
-            }else{
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(PhotoActivity.this,new String[]{Manifest.permission.CAMERA},PERMISSION_GRANTED);
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
-    }
 
     /**
      * 最小预览界面的分辨率

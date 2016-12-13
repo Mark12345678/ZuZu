@@ -68,7 +68,7 @@
             android:value="e6dac6d2f8ef0bb1f00682d56ffd27fb" />
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="7e66391981774f627ce430219ec8162b" />
+            android:value="1ad0f028b6fe612c467e2e602456af80" />
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".ReleaseActivity" />

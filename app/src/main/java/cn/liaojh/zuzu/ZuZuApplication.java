@@ -1,5 +1,6 @@
 package cn.liaojh.zuzu;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
@@ -12,6 +13,7 @@ import com.squareup.leakcanary.RefWatcher;
 
 
 import cn.liaojh.zuzu.bean.User;
+import cn.liaojh.zuzu.utils.AskPermission;
 import cn.liaojh.zuzu.utils.ToastUtils;
 import cn.liaojh.zuzu.utils.UserLocalData;
 import io.rong.imkit.RongIM;
@@ -47,6 +49,7 @@ public class ZuZuApplication extends Application {
         initUser();
         Fresco.initialize(this);
         RongIM.setOnReceivePushMessageListener(new MyReceivePushMessageListener());
+
         //connect(user.getTakenIM());
     }
 
