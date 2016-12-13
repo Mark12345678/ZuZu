@@ -4,14 +4,12 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 
 import cn.liaojh.zuzu.bean.User;
 import cn.liaojh.zuzu.utils.ToastUtils;
@@ -33,6 +31,8 @@ public class ZuZuApplication extends Application {
     public static ZuZuApplication getInstance(){
         return mInstance;
     }
+
+
 
     public RefWatcher refWatcher = null;
 

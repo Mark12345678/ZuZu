@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.cjj.MaterialRefreshLayout;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -27,6 +28,7 @@ import java.util.Map;
 
 import cn.liaojh.zuzu.Contans;
 import cn.liaojh.zuzu.GoodsDetailActivity;
+import cn.liaojh.zuzu.MapActivity;
 import cn.liaojh.zuzu.R;
 import cn.liaojh.zuzu.SearchActivity;
 import cn.liaojh.zuzu.ZuZuApplication;
@@ -64,6 +66,8 @@ public class HomeFragment extends BaseFragment{
 
     private SliderLayout mSliderLayout;
 
+    private ImageView home_map;
+
     //横幅容器
     List<Banner> mBanner ;
 
@@ -77,12 +81,21 @@ public class HomeFragment extends BaseFragment{
 
         mSliderLayout = (SliderLayout) view.findViewById(R.id.home_slider);
         okHttpHelper = OkHttpHelper.getInstance();
+        home_map = (ImageView) view.findViewById(R.id.home_map);
 
         myToolBar.setSearchViewOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),SearchActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        home_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
@@ -218,6 +231,7 @@ public class HomeFragment extends BaseFragment{
         @Override
         public void loadMore(List<Goods> datas, int totalPage, int totalCount) {
             Collections.reverse(datas);  //按照age降序 23,22
+            mAdapter.clearData();
             mAdapter.addData(mAdapter.getmDatas().size(),datas);
             mRecyclerView.scrollToPosition(mAdapter.getmDatas().size());
         }

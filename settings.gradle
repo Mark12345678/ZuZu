@@ -1,1 +1,1 @@
-include ':app', ':smssdk', ':IMKit'
+include ':app', ':smssdk', ':IMKit', ':amap'
