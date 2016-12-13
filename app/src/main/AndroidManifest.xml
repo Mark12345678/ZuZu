@@ -15,13 +15,26 @@
 
     <!-- 短信权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <!-- 高德地图 -->
+    <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:name=".ZuZuApplication"
@@ -53,6 +66,9 @@
         <meta-data
             android:name="mob_sms_appSecrect"
             android:value="e6dac6d2f8ef0bb1f00682d56ffd27fb" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="7e66391981774f627ce430219ec8162b" />
 
         <activity android:name=".LoginActivity" />
         <activity android:name=".ReleaseActivity" />
@@ -87,7 +103,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChatListActivity" />
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".SearchActivity" />
+
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity android:name=".MapActivity"></activity>
     </application>
 
 </manifest>

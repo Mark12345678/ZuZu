@@ -30,10 +30,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.daimajia.slider:library:1.1.5@aar'
     compile name: 'SMSSDK-2.1.2', ext: 'aar'
     compile name: 'SMSSDKGUI-2.1.2', ext: 'aar'
     compile project(':IMKit')
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile project(':amap')
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.jiechic.library:xUtils:2.6.14'
