@@ -1,12 +1,13 @@
 package cn.liaojh.zuzu.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,21 @@ import cn.liaojh.zuzu.ZuZuApplication;
  * Created by Liaojh on 2016/10/15.
  */
 
-public abstract class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment {
 
+    //宿主Activity
     protected BaseActivity mActivity;
+
+    public abstract void initView(View view, Bundle savedInstanceState);
+
+    //获取布局文件ID
+    protected abstract int getLayoutId();
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mActivity = (BaseActivity) activity;
+    }
 
     @Nullable
     @Override
@@ -30,8 +43,8 @@ public abstract class BaseFragment extends Fragment{
 
         View view = inflater.inflate(getLayoutId(), container, false);
 
+        //监测内存溢出
         RefWatcher refWatcher = ZuZuApplication.getRefWatcher(getContext());
-
         refWatcher.watch(this);
 
         ViewUtils.inject(this, view);
@@ -47,30 +60,15 @@ public abstract class BaseFragment extends Fragment{
 
     }
 
-    public abstract void initView(View view, Bundle savedInstanceState);
-
-    public void startActivity(Intent intent, boolean isNeedLogin){
-
-    }
-
-    //获取布局文件ID
-    protected abstract int getLayoutId();
-
     //获取宿主Activity
     protected BaseActivity getHoldingActivity() {
         return mActivity;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mActivity = (BaseActivity) activity;
-    }
-
     //添加fragment
     protected void addFragment(BaseFragment fragment) {
         if (null != fragment) {
-            getHoldingActivity().addFragment(fragment);
+            getHoldingActivity().replaceFragment(fragment);
         }
     }
 
@@ -78,7 +76,6 @@ public abstract class BaseFragment extends Fragment{
     protected void removeFragment() {
         getHoldingActivity().removeFragment();
     }
-
 
     @Override
     public void onDestroy() {

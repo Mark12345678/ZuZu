@@ -36,7 +36,7 @@ public class GoodsDetailActivity extends AppActivity{
     @Override
     protected void onDestroy() {
         removeFragment();
-        goodsDetailFragment.onDestroy();
+
         super.onDestroy();
     }
 }

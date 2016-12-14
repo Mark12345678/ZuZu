@@ -1,13 +1,107 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/map_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cn.liaojh.zuzu.MapActivity">
+
 
     <com.amap.api.maps2d.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.amap.api.maps2d.MapView>
+
+
+    <ImageView
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/id_map_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_map_categoty"/>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/map_detail_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+        android:id="@+id/map_detail"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <TextView
+            android:id="@+id/map_goods_name"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="20dp"
+            android:text="物品名字"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_below="@id/map_goods_name"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/map_goods_distance"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="13dp"
+                android:text="距离你100m"
+                android:singleLine="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <View android:layout_width="2dp"
+                android:layout_marginLeft="10dp"
+                style="@style/line_horizontal"/>
+
+            <TextView
+                android:id="@+id/map_goods_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="13dp"
+                android:text="物品简介"
+                android:singleLine="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/map_detaile_back"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_right"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+        <ImageView
+        android:id="@+id/map_detail_close"
+        android:layout_marginBottom="-13dp"
+        android:layout_above="@id/map_detail"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
 
 </FrameLayout>

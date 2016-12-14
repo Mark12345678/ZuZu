@@ -31,20 +31,22 @@ public abstract  class AppActivity extends BaseActivity{
             handleIntent(getIntent());
         }
         //避免重复添加Fragment
-        if (null == getSupportFragmentManager().getFragments()) {
+        if (0 == getFragmentManager().getBackStackEntryCount()) {
             BaseFragment firstFragment = getFirstFragment();
             if (null != firstFragment) {
-                addFragment(firstFragment);
+                replaceFragment(firstFragment);
             }
         }
 
     }
 
+    //获取fragment容器
     @Override
     protected int getContentViewId() {
         return R.layout.activity_base;
     }
 
+    //获取可以替换fragment的Id
     @Override
     protected int getFragmentContentId() {
         return R.id.fragment_container;

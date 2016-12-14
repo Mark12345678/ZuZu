@@ -24,6 +24,7 @@ import cn.liaojh.zuzu.R;
 import cn.liaojh.zuzu.adapter.HomeAdapter;
 import cn.liaojh.zuzu.bean.Goods;
 import cn.liaojh.zuzu.bean.Page;
+import cn.liaojh.zuzu.utils.CategotyMenuUtil;
 import cn.liaojh.zuzu.utils.Pager;
 import cn.liaojh.zuzu.utils.PagerBuilder;
 import cn.liaojh.zuzu.utils.ToastUtils;
@@ -87,43 +88,15 @@ public class CategoryFragment extends BaseFragment{
 
         pvOptions = new OptionsPickerView(getActivity());
 
-        options1Items.add(0,"实物");
-        options1Items.add(1,"时间");
-        options1Items.add(2,"需求");
-        ArrayList<String> list1 = new ArrayList<String>();
-        list1.add("书籍文具");
-        list1.add("运动器材");
-        list1.add("衣服鞋子");
-        list1.add("生活工具");
-        list1.add("植物盆栽");
-        list1.add("艺术器材");
-        list1.add("其他");
-        options2Items.add(0,list1);
-        ArrayList<String> list2 = new ArrayList<String>();
-        list2.add("交心聊天");
-        list2.add("外出活动");
-        list2.add("日常闲逛");
-        list2.add("教学辅导");
-        options2Items.add(1,list2);
-        ArrayList<String> list3 = new ArrayList<String>();
-        list3.add("物品需求");
-        list3.add("时间需求");
-        options2Items.add(2,list3);
+        //初始化这个菜单
+        pvOptions = CategotyMenuUtil.initCategory(pvOptions);
 
-        //二级联动效果
-        pvOptions.setPicker(options1Items, options2Items, true);
-        pvOptions.setTitle("选择类别");
-        pvOptions.setCyclic(false);
-        pvOptions.setSelectOptions(0, 0);
         pvOptions.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3) {
                 category1 = options1 + 1;
                 category2 = option2 + 1;
-
-
                 requestGoods();
-
             }
         });
     }

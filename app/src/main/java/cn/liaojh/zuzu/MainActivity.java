@@ -76,7 +76,7 @@ public class MainActivity extends AppActivity implements GooeyMenu.GooeyMenuInte
 
         mInflater = LayoutInflater.from(this);
         mTabhost = (FragmentTabHost) this.findViewById(R.id.tobhost);
-        mTabhost.setup(this,getSupportFragmentManager(),R.id.realtabcontent);
+        mTabhost.setup(this,getFragmentManager(),R.id.realtabcontent);
 
 
         for (int i= 0 ; i < mTabs.size() ; i++){

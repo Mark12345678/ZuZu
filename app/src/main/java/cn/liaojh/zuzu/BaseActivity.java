@@ -1,6 +1,8 @@
 package cn.liaojh.zuzu;
 
+import android.app.Activity;
 import android.content.Intent;
+
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 
@@ -10,7 +12,7 @@ import cn.liaojh.zuzu.fragment.BaseFragment;
  * Created by Liaojh on 2016/10/15.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends Activity {
 
     protected static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -20,20 +22,28 @@ public abstract class BaseActivity extends AppCompatActivity {
     //布局中Fragment的ID
     protected abstract int getFragmentContentId();
 
-    //添加fragment
-    public void addFragment(BaseFragment fragment) {
+    //替换fragment
+    public void replaceFragment(BaseFragment fragment) {
         if (fragment != null) {
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .replace(getFragmentContentId(), fragment, fragment.getClass().getSimpleName())
                     .addToBackStack(fragment.getClass().getSimpleName())
                     .commitAllowingStateLoss();
         }
     }
+    //添加fragment
+    public void addFragment(BaseFragment fragment) {
+        if (fragment != null) {
+            getFragmentManager().beginTransaction()
+                    .add(getFragmentContentId(), fragment)
+                    .addToBackStack(fragment.getClass().getSimpleName())
+                    .commitAllowingStateLoss();
+        }
+    }
 
-    //移除fragment
     public void removeFragment() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
+        if (getFragmentManager().getBackStackEntryCount() > 1) {
+            getFragmentManager().popBackStack();
         } else {
             finish();
         }
@@ -43,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (KeyEvent.KEYCODE_BACK == keyCode) {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            if (getFragmentManager().getBackStackEntryCount() == 1) {
                 finish();
                 return true;
             }

@@ -87,6 +87,7 @@ public class OkHttpHelper {
 
                     String resultStr = response.body().string();
                     Log.i("1访问数据",resultStr);
+
                     if (callback.mType == String.class){
                         callbackSuccess(callback,response,resultStr);
                     }
@@ -107,6 +108,7 @@ public class OkHttpHelper {
                 }
 
             }
+
         });
 
     }
