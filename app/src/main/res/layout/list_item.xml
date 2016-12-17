@@ -139,6 +139,7 @@
                     android:layout_below="@id/item_describe">
 
                     <TextView
+                        android:id="@+id/home_distance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1024m"
@@ -149,6 +150,7 @@
                         />
 
                     <TextView
+                        android:id="@+id/home_like"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="喜欢"

@@ -21,7 +21,7 @@ public class PagerBuilder {
 
     public boolean canLoadMore;
 
-    public int totalPage = 1;
+    public int totalPage = 0;
     public int pageIndex = 1;
     public int pageSize = 10;
     public int totalRecord = 0;

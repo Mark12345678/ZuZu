@@ -1,6 +1,10 @@
 package cn.liaojh.zuzu.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -232,11 +236,10 @@ public class HomeFragment extends BaseFragment{
         @Override
         public void loadMore(List<Goods> datas, int totalPage, int totalCount) {
             Collections.reverse(datas);  //按照age降序 23,22
-            mAdapter.clearData();
+            //mAdapter.clearData();
             mAdapter.addData(mAdapter.getmDatas().size(),datas);
             mRecyclerView.scrollToPosition(mAdapter.getmDatas().size());
         }
     }
-
 
 }

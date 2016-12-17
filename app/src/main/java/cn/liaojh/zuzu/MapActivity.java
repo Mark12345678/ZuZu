@@ -15,6 +15,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
@@ -51,17 +52,20 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
     @ViewInject(R.id.map_detail_all)
     RelativeLayout detail_rl;
 
+    @ViewInject(R.id.map_detaile_back)
+    ImageView map_detaile_back;
+
     @ViewInject(R.id.map_goods_name)
     TextView map_goods_name;
 
     @ViewInject(R.id.map_goods_content)
     TextView map_goods_content;
 
-    @ViewInject(R.id.map_detaile_back)
-    ImageView map_detaile_back;
-
     @ViewInject(R.id.map_detail_close)
     ImageView map_detail_close;
+
+    @ViewInject(R.id.map_goods_distance)
+    TextView map_goods_distance;
 
     //定义地图控件引用
     MapView mapView = null;
@@ -81,6 +85,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
     //声明mLocationOption对象
     public AMapLocationClientOption mLocationOption = null;
 
+    //自己当前位置的标记
     private Marker locationMarker;
 
     @Override
@@ -170,6 +175,8 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
 
                 map_goods_name.setText(goods.getGoodsName());
                 map_goods_content.setText(goods.getGoodsDescribe());
+                map_goods_distance.setText("距离你"+getDistance(locationMarker.getPosition(),marker.getPosition())+"m");
+
                 map_detail_close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -177,7 +184,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
                     }
                 });
 
-                detail_rl.setOnClickListener(new View.OnClickListener() {
+                map_detaile_back.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         startToDetail(goods);
@@ -189,6 +196,13 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         });
     }
 
+    //获取两点间的距离
+    public int getDistance(LatLng startLatlng,LatLng endLatlng){
+        int result = (int)AMapUtils.calculateLineDistance(startLatlng, endLatlng);
+        return result;
+    }
+
+    //跳转到物品详细页面
     public void startToDetail(Goods goods){
         //addFragment(new GoodsDetailFragment(goods));
         Intent i = new Intent(MapActivity.this,GoodsDetailActivity.class);

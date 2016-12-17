@@ -176,8 +176,10 @@ public class GoodsDetailFragment extends BaseFragment {
             public void onSuccess(Response response, String s) {
                 if(s.equals("1")){
                     ToastUtils.show(getContext(),"成功添加进喜欢列表");
+                } else if(s.equals("2")) {
+                    ToastUtils.show(getContext(), "你已经添加到喜欢列表了");
                 }else {
-                    ToastUtils.show(getContext(),"添加失败");
+                    ToastUtils.show(getContext(),s+"s添加失败");
                 }
             }
 
