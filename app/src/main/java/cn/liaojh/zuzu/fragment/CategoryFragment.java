@@ -1,5 +1,6 @@
 package cn.liaojh.zuzu.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,10 +18,14 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import cn.liaojh.zuzu.Contans;
+import cn.liaojh.zuzu.GoodsDetailActivity;
 import cn.liaojh.zuzu.R;
+import cn.liaojh.zuzu.ZuZuApplication;
+import cn.liaojh.zuzu.adapter.BaseAdapter;
 import cn.liaojh.zuzu.adapter.HomeAdapter;
 import cn.liaojh.zuzu.bean.Goods;
 import cn.liaojh.zuzu.bean.Page;
@@ -37,10 +42,10 @@ import cn.liaojh.zuzu.widget.MyToolBar;
 public class CategoryFragment extends BaseFragment{
 
     @ViewInject(R.id.category_materialRefreshLayout)
-    MaterialRefreshLayout category_materialRefreshLayout;
+    private MaterialRefreshLayout mRefreshLayout;
 
     @ViewInject(R.id.category_recycleView)
-    RecyclerView category_recycleView;
+    private RecyclerView category_recycleView;
 
     @ViewInject(R.id.category_toolbar)
     MyToolBar myToolBar;
@@ -70,9 +75,8 @@ public class CategoryFragment extends BaseFragment{
     @Override
     public void initView(View view, Bundle savedInstanceState) {
         initCategory();
+
         //选项选择器
-
-
         category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,19 +106,8 @@ public class CategoryFragment extends BaseFragment{
     }
 
     public void requestGoods(){
-        /*Pager pager = Pager.newBuilder()
-                .setUrl(Contans.API.CATEGORY)
-                .setCanLoadMore(false)
-                .setOnPageListener(new loadMessage())
-                .putParam("category1",category1 + "")
-                .putParam("category2",category2 + "")
-                .setPageSize(1000)
-                .setRefreshLayout(category_materialRefreshLayout)
-                .build(getActivity(),new TypeToken<Page<Goods>>(){}.getType());
 
-        pager.request();*/
-
-        PagerBuilder builder = new PagerBuilder();
+        /*PagerBuilder builder = new PagerBuilder();
         builder.setUrl(Contans.API.CATEGORY);
         builder.setCanLoadMore(false);
         builder.setRefreshLayout(category_materialRefreshLayout);
@@ -125,17 +118,47 @@ public class CategoryFragment extends BaseFragment{
         builder.build(getContext(),new TypeToken<Page<Goods>>(){}.getType());
 
         Pager pager = new Pager(builder);
+        pager.request();*/
+
+        PagerBuilder builder = new PagerBuilder();
+        builder.setUrl(Contans.API.FINDLIKE);
+        builder.setCanLoadMore(true);
+        builder.setRefreshLayout(mRefreshLayout);
+        builder.setOnPageListener(new loadMessage());
+        builder.setPageSize(5);
+        builder.putParam("category1",category1 + "");
+        builder.putParam("category2",category2 + "");
+        builder.build(getContext(),new TypeToken<Page<Goods>>(){}.getType());
+        builder.putParam("mineId", ZuZuApplication.getInstance().getUser().getId());
+
+        Pager pager = new Pager(builder);
         pager.request();
 
     }
 
 
     class loadMessage implements Pager.OnPageListener<Goods>{
+
         @Override
-        public void load(List<Goods> datas, int totalPage, int totalCount) {
-            Log.i("XXXXXXXXXXXXXXXXXXXXX",datas.get(0).getGoodsName());
+        public void load(final List<Goods> datas, int totalPage, int totalCount) {
+
+            Collections.reverse(datas);  //按照age降序 23,22
+
             mAdapter = new HomeAdapter(getActivity(),datas);
             category_recycleView.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(new BaseAdapter.OnItemClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("goods",datas.get(position));
+                    intent.putExtras(bundle);
+                    intent.setClass(getActivity(), GoodsDetailActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
             linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
@@ -146,6 +169,7 @@ public class CategoryFragment extends BaseFragment{
 
         @Override
         public void refresh(List<Goods> datas, int totalPage, int totalCount) {
+            Collections.reverse(datas);  //按照age降序 23,22
             mAdapter.clearData();
             mAdapter.addData(datas);
             category_recycleView.scrollToPosition(0);
@@ -153,7 +177,10 @@ public class CategoryFragment extends BaseFragment{
 
         @Override
         public void loadMore(List<Goods> datas, int totalPage, int totalCount) {
-
+            Collections.reverse(datas);  //按照age降序 23,22
+            //mAdapter.clearData();
+            mAdapter.addData(mAdapter.getmDatas().size(),datas);
+            category_recycleView.scrollToPosition(mAdapter.getmDatas().size());
         }
     }
 

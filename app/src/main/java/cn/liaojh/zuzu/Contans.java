@@ -21,10 +21,10 @@ public class Contans {
         public static final String SHOW_GOODS_PHOTO = "http://150p743k61.iask.in:17063/goods";
 
         //public static final String BASE_URL="http://wx.liaojh.cn.tunnel.2bdata.com/ssh-test/";
-        //public static final String BASE_URL = "http://150p743k61.iask.in:17063/ssh-test/";
+        public static final String BASE_URL = "http://150p743k61.iask.in:17063/ssh-test/";
 
         //手机IP地址
-        public static final String BASE_URL = "http://150p743k61.iask.in:26042/ssh-test/";
+        //public static final String BASE_URL = "http://150p743k61.iask.in:26042/ssh-test/";
 
         //获取横幅图片
         public static final String BANNER = BASE_URL + "getBannerForType";
@@ -58,7 +58,7 @@ public class Contans {
         public static final String ADDLIKE = BASE_URL + "IlikeGood";
 
         //查找喜欢的物品
-        public static final String FINDLIKE = BASE_URL + "findLike";
+        public static final String FINDLIKE = BASE_URL + "findLike2";
 
         //查找的时候的Ajax
         public static final String SERACHAJAX = BASE_URL + "findBySubName";

@@ -5,8 +5,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,18 +20,29 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cjj.MaterialRefreshLayout;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.okhttp.Response;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.liaojh.zuzu.Contans;
+import cn.liaojh.zuzu.GoodsDetailActivity;
 import cn.liaojh.zuzu.R;
 import cn.liaojh.zuzu.SearchActivity;
+import cn.liaojh.zuzu.ZuZuApplication;
+import cn.liaojh.zuzu.adapter.HomeAdapter;
 import cn.liaojh.zuzu.bean.Goods;
+import cn.liaojh.zuzu.bean.Page;
 import cn.liaojh.zuzu.http.OkHttpHelper;
 import cn.liaojh.zuzu.http.SpotsCallBack;
+import cn.liaojh.zuzu.utils.Pager;
+import cn.liaojh.zuzu.utils.PagerBuilder;
 import cn.liaojh.zuzu.widget.MyToolBar;
 
 /**
@@ -35,24 +51,26 @@ import cn.liaojh.zuzu.widget.MyToolBar;
 
 public class SearchFragment extends Fragment{
 
-    MyToolBar myToolBar;
+    @ViewInject(R.id.search_toolbat)
+    private MyToolBar myToolBar;
 
-    View view;
+    @ViewInject(R.id.search_recycleView)
+    private RecyclerView mRecyclerView;
 
-    ListView listView ;
+    @ViewInject(R.id.serach_materialRefreshLayout)
+    private MaterialRefreshLayout mRefreshLayout;
+
+    private View view;
 
     //设置title
-    String title;
-
-    OkHttpHelper okHttpHelper;
+    private String title;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_search_result,container,false);
-
-        okHttpHelper = OkHttpHelper.getInstance();
+        ViewUtils.inject(this, view);
 
         //获取上一个传递过来的参数
         title = getArguments().getString("title");
@@ -63,10 +81,8 @@ public class SearchFragment extends Fragment{
     }
 
     public void initView(View view){
-        myToolBar = (MyToolBar) view.findViewById(R.id.search_toolbat);
-        myToolBar.setTitle(title);
 
-        listView = (ListView) view.findViewById(R.id.serach_result_list);
+        myToolBar.setTitle(title);
 
         myToolBar.setLeftButtonListener(new View.OnClickListener() {
             @Override
@@ -84,99 +100,71 @@ public class SearchFragment extends Fragment{
 
     }
 
-    public void setDataToList(List<Goods> listGoods){
-        RentAdapter rentAdapter = new RentAdapter(getActivity(),listGoods);
-        listView.setAdapter(rentAdapter);
-    }
-
 
     public void initData(String key){
 
-        if(okHttpHelper != null){
-            okHttpHelper = OkHttpHelper.getInstance();
-        }
+        PagerBuilder builder = new PagerBuilder();
+        builder.setUrl(Contans.API.SEEACHKEY);
+        builder.setCanLoadMore(true);
+        builder.setRefreshLayout(mRefreshLayout);
+        builder.setOnPageListener(new loadMessage());
+        builder.setPageSize(5);
+        builder.putParam("likeName",key);
+        builder.build(getContext(),new TypeToken<Page<Goods>>(){}.getType());
 
-        Map<String,Object> prams = new HashMap<String,Object>();
-        prams.put("likeName",key);
-
-        okHttpHelper.get(Contans.API.SEEACHKEY, prams, new SpotsCallBack<List<Goods>>(getActivity()) {
-
-            @Override
-            public void onSuccess(Response response, List<Goods> goodses) {
-                //ToastUtils.show(SearchActivity.this,goodses.get(0).getGoodsName());
-
-                setDataToList(goodses);
-            }
-
-            @Override
-            public void onError(Response response, int code, Exception e) {
-
-            }
-        });
-
+        Pager pager = new Pager(builder);
+        pager.request();
 
     }
 
+    HomeAdapter mAdapter;
+    class loadMessage implements Pager.OnPageListener<Goods>{
 
-    class RentAdapter extends BaseAdapter {
+        @Override
+        public void load(final List<Goods> datas, int totalPage, int totalCount) {
 
-        private Context context;
-        private List<Goods> lists ;
-        private LayoutInflater inflater;
+            Collections.reverse(datas);  //按照age降序 23,22
 
-        public RentAdapter(Context context , List<Goods> lists){
-            this.context = context;
-            this.lists = lists;
-            inflater = LayoutInflater.from(context);
+            mAdapter = new HomeAdapter(getActivity(),datas);
+            mRecyclerView.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(new cn.liaojh.zuzu.adapter.BaseAdapter.OnItemClickListener() {
+                @Override
+                public void onClick(View view, int position) {
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("goods",datas.get(position));
+                    intent.putExtras(bundle);
+                    intent.setClass(getActivity(), GoodsDetailActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
+            linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+            mRecyclerView.setLayoutManager(linearLayoutManager);
+
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         }
 
         @Override
-        public int getCount() {
-            return lists.size();
+        public void refresh(List<Goods> datas, int totalPage, int totalCount) {
+            Collections.reverse(datas);  //按照age降序 23,22
+            mAdapter.clearData();
+            mAdapter.addData(datas);
+            mRecyclerView.scrollToPosition(0);
         }
 
         @Override
-        public Object getItem(int i) {
-            return lists.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-
-            ViewHolder viewHolder ;
-
-            if(view == null){
-                viewHolder = new ViewHolder();
-                view = inflater.inflate(R.layout.list_item,null);
-                viewHolder.imageView = (ImageView) view.findViewById(R.id.item_img);
-                viewHolder.txt_name = (TextView) view.findViewById(R.id.item_goodsname);
-                viewHolder.txt_desctibe = (TextView) view.findViewById(R.id.item_describe);
-                viewHolder.txt_phone = (TextView) view.findViewById(R.id.item_username);
-                viewHolder.txt_price = (TextView) view.findViewById(R.id.item_price);
-                view.setTag(viewHolder);
-            }else {
-                viewHolder = (ViewHolder) view.getTag();
-            }
-
-            viewHolder.txt_phone.setText(lists.get(i).getUser().getPhone());
-            viewHolder.txt_desctibe.setText(lists.get(i).getGoodsDescribe());
-            viewHolder.txt_price.setText("￥"+lists.get(i).getGoodsPrice());
-            viewHolder.imageView.setImageResource(R.drawable.default_goods);
-            viewHolder.txt_name.setText(lists.get(i).getGoodsName());
-
-            return view;
-        }
-
-        class ViewHolder{
-            ImageView imageView;
-            TextView txt_phone,txt_name,txt_price,txt_desctibe;
+        public void loadMore(List<Goods> datas, int totalPage, int totalCount) {
+            Collections.reverse(datas);  //按照age降序 23,22
+            //mAdapter.clearData();
+            mAdapter.addData(mAdapter.getmDatas().size(),datas);
+            mRecyclerView.scrollToPosition(mAdapter.getmDatas().size());
         }
     }
+
 
 
 
