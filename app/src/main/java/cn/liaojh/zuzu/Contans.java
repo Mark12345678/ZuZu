@@ -15,7 +15,7 @@ public class Contans {
 
     public static class API{
 
-        //显示图片的路径
+        //显示头像图片的路径
         public static final String SHOW_PHOTO = "http://150p743k61.iask.in:17063/name";
 
         public static final String SHOW_GOODS_PHOTO = "http://150p743k61.iask.in:17063/goods";
