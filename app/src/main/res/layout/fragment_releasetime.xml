@@ -1,13 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/lightgray"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <cn.liaojh.zuzu.widget.MyToolBar
+        android:id="@+id/time_toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:isShowleftNavitive="true"
+        app:isShowLeftButton="true"
+        android:minHeight="50dp"/>
+
+    <TextView
+        android:layout_below="@id/time_toolbar"
+        android:id="@+id/time_category"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:hint="时间类别"
+        android:gravity="left|center_vertical"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:textSize="18dp"
+        android:drawableRight="@drawable/icon_reight_gray"
+        />
+
+    <GridView
+        android:layout_below="@id/time_category"
+        android:id="@+id/time_grid"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/white"
+        android:layout_above="@id/first_prompt"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:numColumns="4"
+        android:columnWidth="90dp"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp"
+        />
+    <TextView
+        android:layout_below="@id/time_grid"
+        android:id="@+id/time_prompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="温馨提示,最多只可以上传3张图片，么么哒 (,,• ₃ •,,) "
+        android:layout_above="@id/first_nest"
+        android:background="@color/lightgray"
+        />
+
+    <EditText
+        android:layout_below="@id/time_prompt"
+        android:id="@+id/time_decrease"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/white"
+        android:hint="吊炸天的描述，让人不买不行"
+        android:gravity="top|left"
+        android:paddingTop="10dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:textSize="15dp"
         android:textColor="@color/black"
-        android:text="时间"/>
+        />
+
+    <TextView
+        android:layout_below="@id/time_decrease"
+        android:id="@+id/time_map"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white"
+        android:text="发布地点"
+        android:layout_gravity="center"
+        android:gravity="left|center_vertical"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:textSize="13dp"
+        android:drawableRight="@drawable/icon_status"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/time_price"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="19dp"
+            android:textColor="@color/black"
+            android:hint="价格:￥/小时"/>
+
+        <TextView
+            android:id="@+id/time_sure"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="确认发布"
+            android:textSize="19dp"
+            android:textColor="@color/white"
+            android:background="?attr/colorPrimary"/>
+
+    </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

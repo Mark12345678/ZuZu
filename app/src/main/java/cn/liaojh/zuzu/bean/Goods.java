@@ -28,7 +28,17 @@ public class Goods implements Serializable,Comparable {
 
     private String standPic;
 
+    private String goodsReleaseTime;
+
     User user;
+
+    public String getGoodsReleaseTime() {
+        return goodsReleaseTime;
+    }
+
+    public void setGoodsReleaseTime(String goodsReleaseTime) {
+        this.goodsReleaseTime = goodsReleaseTime;
+    }
 
     public String getStandPic() {
         return standPic;

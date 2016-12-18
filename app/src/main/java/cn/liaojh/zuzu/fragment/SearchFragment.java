@@ -80,6 +80,7 @@ public class SearchFragment extends Fragment{
         return view;
     }
 
+    //这是搜索页面的
     public void initView(View view){
 
         myToolBar.setTitle(title);
@@ -99,7 +100,6 @@ public class SearchFragment extends Fragment{
         initData(title);
 
     }
-
 
     public void initData(String key){
 

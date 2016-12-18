@@ -54,7 +54,7 @@ public class HomeAdapter extends SimpleAdapter<Goods> {
         holder.getTextView(R.id.item_price).setText("￥" + goods.getGoodsPrice());
         holder.getTextView(R.id.item_describe).setText(goods.getGoodsDescribe());
         Picasso.with(context).load(Contans.API.SHOW_GOODS_PHOTO + "/" + goods.getStandPic()).into(holder.getImageView(R.id.item_img));
-
+        holder.getTextView(R.id.item_time).setText(goods.getGoodsReleaseTime());
         //获取物品用户头像
         Map<String , Object> map = new HashMap<String,Object>();
         map.put("phone",goods.getUser().getPhone());

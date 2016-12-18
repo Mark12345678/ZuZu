@@ -1,6 +1,8 @@
 package cn.liaojh.zuzu.fragment;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -76,6 +78,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
     @ViewInject(R.id.txt_username)
     TextView txt_username;
 
+    @ViewInject(R.id.txt_for_rent)
+    TextView txt_for_rent;
+
     OkHttpHelper okHttpHelper;
 
     SpotsDialog releaseDialog;
@@ -101,6 +106,27 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
             btn_logout.setVisibility(View.VISIBLE);
             txt_username.setText(user.getPhone());
         }
+
+        txt_for_rent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SearchFragment fragment = new SearchFragment();
+                FragmentManager fmanger =getFragmentManager();
+                //开启一个事务
+                FragmentTransaction ftran =fmanger.beginTransaction();
+                //往Activity中添加fragment
+                ftran.add(R.id.mine_test,fragment);
+                //创建一个bundle对象，往里面设置参数
+                Bundle bundle = new Bundle();
+                bundle.putString("title","发布物品");
+                //吧bundle当住参数，设置给fragment
+                fragment.setArguments(bundle);
+                ftran.addToBackStack("for_rent");
+                ftran.commit();
+
+            }
+        });
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,8 +183,10 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
                 break;
             case R.id.txt_chat:
                 //ToastUtils.show(getContext(),"123");
-                Intent intent = new Intent(getActivity(), ChatListActivity.class);
-                startActivity(intent);
+                if(ZuZuApplication.getInstance().getUser() != null){
+                    Intent intent = new Intent(getActivity(), ChatListActivity.class);
+                    startActivity(intent);
+                }
 
                 break;
             default:

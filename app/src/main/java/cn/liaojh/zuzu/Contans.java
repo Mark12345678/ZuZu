@@ -40,6 +40,7 @@ public class Contans {
 
         public static final String HOMEDATA = BASE_URL + "getGoods";
 
+        //分类
         public static final String CATEGORY = BASE_URL + "getCategoryGoods";
 
         //物品详情

@@ -121,7 +121,7 @@ public class CategoryFragment extends BaseFragment{
         pager.request();*/
 
         PagerBuilder builder = new PagerBuilder();
-        builder.setUrl(Contans.API.FINDLIKE);
+        builder.setUrl(Contans.API.CATEGORY);
         builder.setCanLoadMore(true);
         builder.setRefreshLayout(mRefreshLayout);
         builder.setOnPageListener(new loadMessage());
