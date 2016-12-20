@@ -147,6 +147,13 @@ public class ReleaseTimeFragment extends BaseFragment{
             }
         });
 
+        time_map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
     //参数类型  text/plain
@@ -241,6 +248,9 @@ public class ReleaseTimeFragment extends BaseFragment{
         return false;
     }
 
+    /**
+     *判断是否为数字
+     */
     public Boolean validateNum(String value){
         try {
             Integer.parseInt(value);

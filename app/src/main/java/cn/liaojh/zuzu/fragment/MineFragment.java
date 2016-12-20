@@ -281,8 +281,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
     public void showPhoto(String pathImage){
         if(!TextUtils.isEmpty(pathImage)) {
             Bitmap addbmp = BitmapUtil.pressPicture(getActivity(), pathImage);
-            headView.setImageBitmap(addbmp);
             release(addbmp);
+            //headView.setImageBitmap(addbmp);
+            setUserHead(headView);
         }
     }
 

@@ -12,6 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 import com.squareup.okhttp.Response;
@@ -38,13 +42,18 @@ public class HomeAdapter extends SimpleAdapter<Goods> {
 
     OkHttpHelper okHttpHelper;
     Context context;
+    double myLatitude;
+    double myLongitude;
+    //声明AMapLocationClient类对象
+    AMapLocationClient mLocationClient = null;
 
     public HomeAdapter(Context context, List<Goods> datas) {
         super(context, datas, R.layout.list_item);
+        if(mLocationClient == null){
+            initAMAP();
+        }
         this.context = context;
         okHttpHelper = OkHttpHelper.getInstance();
-
-
     }
 
     @Override
@@ -72,7 +81,8 @@ public class HomeAdapter extends SimpleAdapter<Goods> {
         });
 
         LatLng end = new LatLng(goods.getGoodsLatitude(), goods.getGoodsLongitude());
-        LatLng start = new LatLng(getLocation().getLatitude(),getLocation().getLongitude());
+        //LatLng start = new LatLng(getLocation().getLatitude(),getLocation().getLongitude());
+        LatLng start = new LatLng(myLatitude,myLongitude);
         holder.getTextView(R.id.home_distance).setText(getDistance(start, end) + "m");
 
     }
@@ -88,6 +98,38 @@ public class HomeAdapter extends SimpleAdapter<Goods> {
             loc = locManger.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
         return loc;
+    }
+
+    public void initAMAP(){
+
+        //声明定位回调监听器
+        AMapLocationListener mLocationListener = new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                //ToastUtils.show(context,""+"getLatitude"+aMapLocation.getLatitude()+"getLongitude"+aMapLocation.getLongitude());
+                myLatitude = aMapLocation.getLatitude();
+                myLongitude = aMapLocation.getLongitude();
+            }
+        };
+        //初始化定位
+        mLocationClient = new AMapLocationClient(ZuZuApplication.getInstance().getApplicationContext());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        //声明AMapLocationClientOption对象
+         AMapLocationClientOption mLocationOption = null;
+        //初始化AMapLocationClientOption对象
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //获取一次定位结果：
+        //该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //单位是毫秒，默认30000毫秒，建议超时时间不要低于8000毫秒。
+        mLocationOption.setHttpTimeOut(20000);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+         mLocationClient.startLocation();
     }
 
     //获取两点间的距离

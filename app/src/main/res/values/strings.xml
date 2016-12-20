@@ -17,4 +17,42 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="category1">
+        <item>实物</item>
+        <item>时间</item>
+        <item>需求</item>
+    </string-array>
+
+    <string-array name="category2_1">
+        <item>书籍文具</item>
+        <item>运动器材</item>
+        <item>衣服鞋子</item>
+        <item>生活工具</item>
+        <item>植物盆栽</item>
+        <item>艺术器材</item>
+        <item>需求</item>
+    </string-array>
+
+    <string-array name="category2_2">
+        <item>交心聊天</item>
+        <item>外出活动</item>
+        <item>日常闲逛</item>
+        <item>教学辅导</item>
+    </string-array>
+
+    <string-array name="category2_3">
+        <item>物品需求</item>
+        <item>时间需求</item>
+    </string-array>
+
+    <string-array name="select_distance">
+        <item>100米之内</item>
+        <item>500米之内</item>
+        <item>1公里之内</item>
+        <item>5公里之内</item>
+        <item>10公里之内</item>
+        <item>20公里之内</item>
+        <item>50公里之内</item>
+    </string-array>
 </resources>

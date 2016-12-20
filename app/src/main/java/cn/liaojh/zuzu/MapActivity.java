@@ -2,12 +2,18 @@ package cn.liaojh.zuzu;
 
 import android.Manifest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -32,6 +38,7 @@ import com.squareup.okhttp.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 import cn.liaojh.zuzu.bean.Goods;
 import cn.liaojh.zuzu.bean.Page;
@@ -40,6 +47,7 @@ import cn.liaojh.zuzu.http.OkHttpHelper;
 import cn.liaojh.zuzu.http.SpotsCallBack;
 import cn.liaojh.zuzu.utils.AskPermission;
 import cn.liaojh.zuzu.utils.CategotyMenuUtil;
+import cn.liaojh.zuzu.utils.ToastUtils;
 
 public class MapActivity extends BaseActivity implements LocationSource, AMapLocationListener {
 
@@ -138,7 +146,8 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         map_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pvOptions.show();
+                //pvOptions.show();
+                selectCategory();
             }
         });
 
@@ -212,11 +221,120 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         startActivity(i);
     }
 
+    /**
+     *选择类别
+     */
+    public void selectCategory(){
+        AlertDialog.Builder dlg = new AlertDialog.Builder(MapActivity.this);
+        View titleView = View.inflate(MapActivity.this,R.layout.addfriend_title,null);
+        TextView textView = (TextView)titleView.findViewById(R.id.addFriend);
+        textView.setText("筛选范围：");
+        dlg.setCustomTitle(titleView);
+        View view = LayoutInflater.from(MapActivity.this).inflate(R.layout.activity_select,null);
+
+        final Spinner spinner_category1 = (Spinner) view.findViewById(R.id.spinner_category1);
+        final Spinner spinner_category2 = (Spinner) view.findViewById(R.id.spinner_category2);
+        final Spinner spinner_distance = (Spinner) view.findViewById(R.id.spinner_distance);
+        final TextView txt_category1 = (TextView) view.findViewById(R.id.txt_select_category1);
+        final TextView txt_category2 = (TextView) view.findViewById(R.id.txt_select_category2);
+        final TextView txt_distance = (TextView) view.findViewById(R.id.txt_select_distance);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                MapActivity.this, R.array.category1, android.R.layout.simple_spinner_dropdown_item);
+        spinner_category1.setAdapter(adapter);
+        //用于记录类别1,2
+        final Map<String,String> pamrams = new HashMap<String,String>();
+
+        spinner_category1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                txt_category1.setText(getResources().getTextArray(R.array.category1)[i]);
+
+                pamrams.put("category1",i+"");
+
+                switch (i){
+                    case 0:
+                        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(
+                                MapActivity.this, R.array.category2_1, android.R.layout.simple_spinner_dropdown_item);
+                        spinner_category2.setAdapter(adapter1);
+                        break;
+                    case 1:
+                        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+                                MapActivity.this, R.array.category2_2, android.R.layout.simple_spinner_dropdown_item);
+                        spinner_category2.setAdapter(adapter2);
+                        break;
+                    case 2:
+                        ArrayAdapter<CharSequence> adapter3 = ArrayAdapter.createFromResource(
+                                MapActivity.this, R.array.category2_3, android.R.layout.simple_spinner_dropdown_item);
+                        spinner_category2.setAdapter(adapter3);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spinner_category2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                pamrams.put("category2",i+"");
+                switch (spinner_category1.getSelectedItemPosition()){
+                    case 0:
+                        txt_category2.setText(getResources().getTextArray(R.array.category2_1)[i]);
+                        break;
+                    case 1:
+                        txt_category2.setText(getResources().getTextArray(R.array.category2_2)[i]);
+                        break;
+                    case 2:
+                        txt_category2.setText(getResources().getTextArray(R.array.category2_3)[i]);
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spinner_distance.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                txt_distance.setText(getResources().getTextArray(R.array.select_distance)[i]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        dlg.setView(view);
+        dlg.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //ToastUtils.show(MapActivity.this,txt_category1.getText().toString()+txt_category2.getText().toString()+txt_distance.getText().toString());
+
+            }
+        });
+        dlg.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        dlg.show();
+
+    }
 
     //根据类别获取物品
     public void requestGoods(int category1, int category2){
 
-        Map<String,Object> params = new HashMap<String,Object>();
+        /*Map<String,Object> params = new HashMap<String,Object>();
         params.put("category1",category1 + "");
         params.put("category2",category2 + "");
 
@@ -225,13 +343,14 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
             @Override
             public void onSuccess(Response response, Page<Goods> goodses) {
                 setMark(goodses.getList());
+                ToastUtils.show(MapActivity.this,""+goodses.getList().size());
             }
 
             @Override
             public void onError(Response response, int code, Exception e) {
-
+                ToastUtils.show(MapActivity.this,"error");
             }
-        });
+        });*/
 
     }
 
