@@ -64,6 +64,7 @@ public class SearchFragment extends Fragment{
 
     //设置title
     private String title;
+    private int type_fragment;
 
     @Nullable
     @Override
@@ -74,16 +75,8 @@ public class SearchFragment extends Fragment{
 
         //获取上一个传递过来的参数
         title = getArguments().getString("title");
-
-        initView(view);
-
-        return view;
-    }
-
-    //这是搜索页面的
-    public void initView(View view){
-
         myToolBar.setTitle(title);
+        type_fragment = getArguments().getInt(Contans.SEARCHFRAGMENT_TYPE);
 
         myToolBar.setLeftButtonListener(new View.OnClickListener() {
             @Override
@@ -97,8 +90,23 @@ public class SearchFragment extends Fragment{
             }
         });
 
-        initData(title);
+        initView(view);
 
+        return view;
+    }
+
+    //这是搜索页面的
+    public void initView(View view){
+
+        if(type_fragment == Contans.SEARCH_GOODS) {
+            initData(title);
+        }else if(type_fragment == Contans.RELEASE_GOODS) {
+            initReleaseGoods();
+        }
+        
+    }
+
+    private void initReleaseGoods() {
     }
 
     public void initData(String key){

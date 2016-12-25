@@ -10,8 +10,11 @@ public class Contans {
     public  static final int STATE_REFREH=1;
     public  static final int STATE_MORE=2;
 
-
     public static final String USER_JSON="user_json";
+
+    public static final int RELEASE_GOODS = 3;
+    public static final int SEARCH_GOODS = 4;
+    public static final String SEARCHFRAGMENT_TYPE = "SearchFragment_type";
 
     public static class API{
 

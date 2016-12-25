@@ -104,6 +104,7 @@ public class SearchActivity extends AppCompatActivity {
                 //创建一个bundle对象，往里面设置参数
                 Bundle bundle = new Bundle();
                 bundle.putString("title",query);
+                bundle.putInt(Contans.SEARCHFRAGMENT_TYPE,Contans.SEARCH_GOODS);
                 //吧bundle当住参数，设置给fragment
                 fragment.setArguments(bundle);
                 ftran.addToBackStack("goodsList");

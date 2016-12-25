@@ -107,26 +107,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
             txt_username.setText(user.getPhone());
         }
 
-        txt_for_rent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                SearchFragment fragment = new SearchFragment();
-                FragmentManager fmanger =getFragmentManager();
-                //开启一个事务
-                FragmentTransaction ftran =fmanger.beginTransaction();
-                //往Activity中添加fragment
-                ftran.add(R.id.mine_test,fragment);
-                //创建一个bundle对象，往里面设置参数
-                Bundle bundle = new Bundle();
-                bundle.putString("title","发布物品");
-                //吧bundle当住参数，设置给fragment
-                fragment.setArguments(bundle);
-                ftran.addToBackStack("for_rent");
-                ftran.commit();
-
-            }
-        });
+        txt_for_rent.setOnClickListener(this);
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +168,22 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
                     Intent intent = new Intent(getActivity(), ChatListActivity.class);
                     startActivity(intent);
                 }
-
+                break;
+            case R.id.txt_for_rent:
+                SearchFragment fragment = new SearchFragment();
+                FragmentManager fmanger =getFragmentManager();
+                //开启一个事务
+                FragmentTransaction ftran =fmanger.beginTransaction();
+                //往Activity中添加fragment
+                ftran.add(R.id.mine_test,fragment);
+                //创建一个bundle对象，往里面设置参数
+                Bundle bundle = new Bundle();
+                bundle.putString("title","发布的物品");
+                bundle.putInt(Contans.SEARCHFRAGMENT_TYPE,Contans.RELEASE_GOODS);
+                //吧bundle当住参数，设置给fragment
+                fragment.setArguments(bundle);
+                ftran.addToBackStack("for_rent");
+                ftran.commit();
                 break;
             default:
                 break;
