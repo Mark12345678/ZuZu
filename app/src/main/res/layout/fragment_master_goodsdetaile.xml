@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/master_goods_name"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="物品名字"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <RelativeLayout
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/image_send"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/icon_master_edit"/>
+
+        <GridView
+            android:id="@+id/master_goodsPic"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:gravity="center"
+            android:stretchMode="columnWidth"
+            android:numColumns="4"
+            android:columnWidth="90dp"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp"
+            />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:clickable="true"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/master_goods_describe"
+            android:textSize="15sp"
+            android:gravity="top"
+            android:paddingTop="8dp"
+            android:text="\t\t物品描述"
+            android:textColor="@color/grey"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:layout_width="match_parent"
+            android:layout_height="80dp" />
+
+        <View style="@style/line_vertical"/>
+
+
+        <TextView
+            android:id="@+id/master_goods_response"
+            android:layout_below="@id/master_goods_describe"
+            android:textSize="15sp"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:text="\t\t物品责任"
+            android:textColor="@color/grey"
+            android:paddingTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:clickable="true"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/master_goods_time"
+            android:layout_alignParentLeft="true"
+            android:textSize="15sp"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:text="12-07-07"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/grey"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/master_goods_price"
+            android:layout_alignParentRight="true"
+            android:textSize="15sp"
+            android:gravity="top"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="false"
+            android:text="￥3.00"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_height="50dp"
+            android:layout_width="match_parent"
+            android:id="@+id/master_goods_delete"
+            android:text="删除物品"
+            style="@style/bigRedButton"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
