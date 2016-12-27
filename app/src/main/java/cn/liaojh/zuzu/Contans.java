@@ -75,12 +75,6 @@ public class Contans {
 
         //获取用户头像
         public static final String GETUSERHEAD = BASE_URL + "getHead";
-
-        //获取用户自己发布过的物品
-        public static final String USERRELEASE = BASE_URL + "getUserReleaseGoods";
-
-        //获取物品图片
-        public static final String GETGOODSPIC = BASE_URL + "getGoodsPic";
     }
 
 }
