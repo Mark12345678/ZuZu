@@ -81,6 +81,18 @@ public class Contans {
 
         //获取物品图片
         public static final String GETGOODSPIC = BASE_URL + "getGoodsPic";
+
+        //修改物主物品信息
+        public static final String MODIFYGOODSMESSAGE = BASE_URL + "modifyGoodsMessage";
+
+        //删除指定物品
+        public static final String DELETEGOODS = BASE_URL + "deleteGoods";
+
+        //为指定物品添加图片
+        public static final String ADDGOODSPIC = BASE_URL + "addGoodsPic";
+
+        //删除指定物品的某张图片
+        public static final String DELETEGOODSPIC = BASE_URL + "deleteGoodsPic";
     }
 
 }

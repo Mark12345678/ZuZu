@@ -2,6 +2,8 @@ package cn.liaojh.zuzu.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import cn.liaojh.zuzu.Contans;
 import cn.liaojh.zuzu.R;
 import cn.liaojh.zuzu.bean.Goods;
@@ -38,6 +42,7 @@ import cn.liaojh.zuzu.bean.GoodsPic;
 import cn.liaojh.zuzu.http.OkHttpHelper;
 import cn.liaojh.zuzu.http.SpotsCallBack;
 import cn.liaojh.zuzu.utils.BitmapUtil;
+import cn.liaojh.zuzu.utils.StringAndMap;
 import cn.liaojh.zuzu.utils.ToastUtils;
 
 /**
@@ -61,14 +66,17 @@ public class MasterGoodsDetailFragment extends Fragment implements View.OnClickL
     @ViewInject(R.id.master_goods_price)
     TextView master_goods_price;
 
-    @ViewInject(R.id.image_send)
-    ImageView image_send;
+    @ViewInject(R.id.master_send)
+    ImageView master_send;
 
     @ViewInject(R.id.master_goods_delete)
     Button master_goods_delete;
 
     @ViewInject(R.id.master_goodsPic)
     GridView master_goodsPic;
+
+    @ViewInject(R.id.master_back)
+    ImageView master_back;
 
     View view;
 
@@ -80,6 +88,12 @@ public class MasterGoodsDetailFragment extends Fragment implements View.OnClickL
     HashMap<String , Object> map = new HashMap<String , Object>();
     Bitmap bmp;
     SimpleAdapter simpleAdapter;
+
+
+    Handler handler;
+    public MasterGoodsDetailFragment(Handler handler){
+        this.handler = handler;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,9 +128,84 @@ public class MasterGoodsDetailFragment extends Fragment implements View.OnClickL
                 modifyMessage(R.id.master_goods_price);
                 break;
             case R.id.master_goods_delete:
-
+                requestDeleteGoods(goods);
+                break;
+            case R.id.master_send:
+                requestModifyMessage();
+                break;
+            case R.id.master_back:
+                remoteFragment();
                 break;
         }
+    }
+
+    /**
+     * 发出请求修改信息
+     */
+    private void requestModifyMessage() {
+
+        String name = master_goods_name.getText().toString();
+        String price = master_goods_price.getText().toString();
+        String response = master_goods_response.getText().toString();
+        String decrease = master_goods_describe.getText().toString();
+
+        Map<String,String> map = new HashMap<String,String>();
+        map.put("goodsname",name);
+        map.put("price",price);
+        map.put("decrease",decrease);
+        map.put("response",response);
+        map.put("latitude",String.valueOf(goods.getGoodsLatitude()));
+        map.put("longitude",String.valueOf(goods.getGoodsLongitude()));
+
+        String json = StringAndMap.tranMapToString(map);
+
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("goodsId",goods.getId());
+        params.put("message",json);
+
+        okHttpHelper.get(Contans.API.MODIFYGOODSMESSAGE, params, new SpotsCallBack<String>(getContext()) {
+            @Override
+            public void onSuccess(Response response, String s) {
+                if(s.equals("1")){
+                    ToastUtils.show(getContext(),"修改成功");
+                }else if(s.equals("-1")){
+                    ToastUtils.show(getContext(),"修改失败");
+                }
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+                ToastUtils.show(getContext(),"网络出现异常");
+            }
+        });
+    }
+
+    /**
+     * 请求删除指定物品
+     * @param goods
+     */
+    private void requestDeleteGoods(Goods goods){
+
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("goodsId",goods.getId());
+
+        okHttpHelper.get(Contans.API.DELETEGOODS, params, new SpotsCallBack<String>(getActivity()) {
+            @Override
+            public void onSuccess(Response response, String s) {
+                if(s.equals("1")){
+                    ToastUtils.show(getContext(),"删除成功");
+                    remoteFragment();
+                }else if(s.equals("-1")){
+                    ToastUtils.show(getContext(),"删除失败");
+                }
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+                ToastUtils.show(getContext(),"网络异常");
+            }
+        });
+
     }
 
     public void initCridView(){
@@ -144,10 +233,12 @@ public class MasterGoodsDetailFragment extends Fragment implements View.OnClickL
         master_goods_response.setOnClickListener(this);
         master_goods_time.setText(goods.getGoodsReleaseTime());
         master_goods_time.setOnClickListener(this);
+        master_send.setOnClickListener(this);
+        master_goods_delete.setOnClickListener(this);
 
         //获取物品图片
         getGoodsPic(goods.getId(),1);
-
+        master_back.setOnClickListener(this);
     }
 
     public void getGoodsPic(int goodsId , int picType){
@@ -222,11 +313,21 @@ public class MasterGoodsDetailFragment extends Fragment implements View.OnClickL
         dlg.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                test.setText(editText.getText());
+                test.setText( "\t\t\t" + editText.getText());
                 dialogInterface.dismiss();
             }
         });
         dlg.setNegativeButton("取消", null);
         dlg.show();
     }
+
+    public void remoteFragment(){
+        handler.sendEmptyMessage(0);
+        FragmentManager fmanger =getFragmentManager();
+        FragmentTransaction ftran =fmanger.beginTransaction();
+        ftran.remove(MasterGoodsDetailFragment.this);
+        ftran.commit();
+    }
+
+
 }

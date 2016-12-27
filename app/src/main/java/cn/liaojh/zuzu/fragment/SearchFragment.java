@@ -8,6 +8,8 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,9 +23,12 @@ import com.cjj.MaterialRefreshLayout;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.squareup.okhttp.Response;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.liaojh.zuzu.Contans;
 import cn.liaojh.zuzu.GoodsDetailActivity;
@@ -32,8 +37,11 @@ import cn.liaojh.zuzu.ZuZuApplication;
 import cn.liaojh.zuzu.adapter.HomeAdapter;
 import cn.liaojh.zuzu.bean.Goods;
 import cn.liaojh.zuzu.bean.Page;
+import cn.liaojh.zuzu.http.OkHttpHelper;
+import cn.liaojh.zuzu.http.SpotsCallBack;
 import cn.liaojh.zuzu.utils.Pager;
 import cn.liaojh.zuzu.utils.PagerBuilder;
+import cn.liaojh.zuzu.utils.ToastUtils;
 import cn.liaojh.zuzu.widget.MyToolBar;
 
 /**
@@ -57,13 +65,23 @@ public class SearchFragment extends Fragment{
     private String title;
     private int type_fragment;
 
+    OkHttpHelper okHttpHelper ;
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            initReleaseGoods(ZuZuApplication.getInstance().getUser().getId());
+            super.handleMessage(msg);
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_search_result,container,false);
         ViewUtils.inject(this, view);
-
+        okHttpHelper = OkHttpHelper.getInstance();
         //获取上一个传递过来的参数
         title = getArguments().getString("title");
         myToolBar.setTitle(title);
@@ -202,16 +220,17 @@ public class SearchFragment extends Fragment{
                     case 0:      //查看物品详情
                         dialog.dismiss();
                         opeanMasterGoodsDetail(goods);
-
                         break;
 
                     case 1:      //添加授权用户
-                        dialog.dismiss();
 
+                        dialog.dismiss();
                         break;
 
                     case 2:      //删除添加
                         dialog.dismiss();
+                        requestDeleteGoods(goods);
+                        handler.sendEmptyMessage(0);
                         break;
 
                     case 3:      //取消添加
@@ -227,8 +246,8 @@ public class SearchFragment extends Fragment{
         builder.create().show();
     }
 
-        public void opeanMasterGoodsDetail(Goods  goods){
-            MasterGoodsDetailFragment fragment = new MasterGoodsDetailFragment();
+    public void opeanMasterGoodsDetail(Goods  goods){
+            MasterGoodsDetailFragment fragment = new MasterGoodsDetailFragment(handler);
             FragmentManager fmanger =getFragmentManager();
             //开启一个事务
             FragmentTransaction ftran =fmanger.beginTransaction();
@@ -243,4 +262,31 @@ public class SearchFragment extends Fragment{
             ftran.commit();
         }
 
+
+    /**
+     * 请求删除指定物品
+     * @param goods
+     */
+    private void requestDeleteGoods(Goods goods){
+
+        Map<String,Object> params = new HashMap<String,Object>();
+        params.put("goodsId",goods.getId());
+
+        okHttpHelper.get(Contans.API.DELETEGOODS, params, new SpotsCallBack<String>(getActivity()) {
+            @Override
+            public void onSuccess(Response response, String s) {
+                if(s.equals("1")){
+                    ToastUtils.show(getContext(),"删除成功");
+                }else if(s.equals("-1")){
+                    ToastUtils.show(getContext(),"删除失败");
+                }
+            }
+
+            @Override
+            public void onError(Response response, int code, Exception e) {
+                ToastUtils.show(getContext(),"网络异常");
+            }
+        });
+
+    }
 }
