@@ -21,7 +21,7 @@ public class Contans {
         //显示头像图片的路径
         public static final String SHOW_PHOTO = "http://150p743k61.iask.in:17063/name";
 
-        public static final String SHOW_GOODS_PHOTO = "http://150p743k61.iask.in:17063/goods";
+        public static final String SHOW_GOODS_PHOTO = "http://150p743k61.iask.in:17063/goods/";
 
         //public static final String BASE_URL="http://wx.liaojh.cn.tunnel.2bdata.com/ssh-test/";
         public static final String BASE_URL = "http://150p743k61.iask.in:17063/ssh-test/";
@@ -76,8 +76,11 @@ public class Contans {
         //获取用户头像
         public static final String GETUSERHEAD = BASE_URL + "getHead";
 
-        //获取地图的分类
-        public static final String FINDBYMAPCATOGERY = BASE_URL + "findByMayCategory";
+        //获取用户自己发布过的物品
+        public static final String USERRELEASE = BASE_URL + "getUserReleaseGoods";
+
+        //获取物品图片
+        public static final String GETGOODSPIC = BASE_URL + "getGoodsPic";
     }
 
 }
