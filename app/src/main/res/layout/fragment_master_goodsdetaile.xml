@@ -7,43 +7,58 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/master_goods_name"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:text="物品名字"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/white"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/master_back"
+            android:src="@drawable/icon_back_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/master_goods_name"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="物品名字"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
+
+        <ImageView
+            android:id="@+id/master_send"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginRight="5dp"
+            android:clickable="true"
+            android:src="@drawable/icon_master_edit"/>
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:clickable="true"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
-
-        <ImageView
-            android:id="@+id/image_send"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/icon_master_edit"/>
+        android:layout_height="250dp">
 
         <GridView
             android:id="@+id/master_goodsPic"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             android:gravity="center"
             android:stretchMode="columnWidth"
             android:numColumns="4"
             android:columnWidth="90dp"
             android:horizontalSpacing="5dp"
             android:verticalSpacing="5dp"
-            />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
 
     </RelativeLayout>
