@@ -342,7 +342,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         params.put("myLatitude",locationMarker.getPosition().latitude + "");
         params.put("myLongitude",locationMarker.getPosition().longitude + "");
 
-        okHttpHelpetr.get(Contans.API.FINDBYMAPCATOGERY, params,new SpotsCallBack<List<Goods>>(MapActivity.this) {
+        okHttpHelpetr.get(Contans.API.FINDBYMAPCATOGERY , params,new SpotsCallBack<List<Goods>>(MapActivity.this) {
 
             @Override
             public void onSuccess(Response response, List<Goods> goodses) {

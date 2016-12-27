@@ -82,6 +82,8 @@ public class Contans {
         //获取物品图片
         public static final String GETGOODSPIC = BASE_URL + "getGoodsPic";
 
+        public static final String FINDBYMAPCATOGERY = BASE_URL + "findByMaoCategory";
+
         //修改物主物品信息
         public static final String MODIFYGOODSMESSAGE = BASE_URL + "modifyGoodsMessage";
 
