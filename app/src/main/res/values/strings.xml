@@ -47,12 +47,13 @@
     </string-array>
 
     <string-array name="select_distance">
-        <item>100米之内</item>
-        <item>500米之内</item>
         <item>1公里之内</item>
         <item>5公里之内</item>
         <item>10公里之内</item>
         <item>20公里之内</item>
         <item>50公里之内</item>
+        <item>100公里之内</item>
     </string-array>
+
+
 </resources>

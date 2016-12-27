@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,8 @@ import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
+import com.amap.api.maps2d.model.Circle;
+import com.amap.api.maps2d.model.CircleOptions;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
@@ -48,6 +51,8 @@ import cn.liaojh.zuzu.http.SpotsCallBack;
 import cn.liaojh.zuzu.utils.AskPermission;
 import cn.liaojh.zuzu.utils.CategotyMenuUtil;
 import cn.liaojh.zuzu.utils.ToastUtils;
+
+import static cn.liaojh.zuzu.R.id.progress;
 
 public class MapActivity extends BaseActivity implements LocationSource, AMapLocationListener {
 
@@ -77,10 +82,10 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
 
     //定义地图控件引用
     MapView mapView = null;
-    int category1 = -1;
-    int category2 = -1 ;
 
     AMap aMap = null;
+
+    int lastDistance = 0;
 
     //类别选择器
     OptionsPickerView pvOptions;
@@ -108,11 +113,11 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，实现地图生命周期管理
         mapView.onCreate(savedInstanceState);
 
-        if(aMap == null){
-            initMap();
 
-            initLocation();
-        }
+        initMap();
+
+        initLocation();
+
         okHttpHelpetr = OkHttpHelper.getInstance();
     }
 
@@ -129,24 +134,11 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
 
         //初始化选择按钮
         map_category = (ImageView) findViewById(R.id.id_map_category);
-        pvOptions = new OptionsPickerView(MapActivity.this);
-        //初始化这个菜单
-        pvOptions = CategotyMenuUtil.initCategory(pvOptions);
-
-        pvOptions.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int option2, int options3) {
-                category1 = options1 + 1;
-                category2 = option2 + 1;
-
-                requestGoods(category1,category2);
-            }
-        });
 
         map_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //pvOptions.show();
+                //选择种类
                 selectCategory();
             }
         });
@@ -162,7 +154,10 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
             aMap.addMarker(new MarkerOptions().position(locationMarker.getPosition())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker)));
 
+
         }
+
+        ToastUtils.show(MapActivity.this,")))");
         if(aMap != null && goodses.size() > 0){
 
             for(int i=0 ; i<goodses.size() ; i++ ){
@@ -250,7 +245,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 txt_category1.setText(getResources().getTextArray(R.array.category1)[i]);
 
-                pamrams.put("category1",i+"");
+                pamrams.put("category1",(i+1)+"");
 
                 switch (i){
                     case 0:
@@ -281,7 +276,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                pamrams.put("category2",i+"");
+                pamrams.put("category2",(i+1)+"");
                 switch (spinner_category1.getSelectedItemPosition()){
                     case 0:
                         txt_category2.setText(getResources().getTextArray(R.array.category2_1)[i]);
@@ -305,6 +300,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 txt_distance.setText(getResources().getTextArray(R.array.select_distance)[i]);
+                pamrams.put("distance",i+"");
             }
 
             @Override
@@ -317,7 +313,11 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         dlg.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //ToastUtils.show(MapActivity.this,txt_category1.getText().toString()+txt_category2.getText().toString()+txt_distance.getText().toString());
+                int[] distances =  getResources().getIntArray(R.array.select_distance_num);
+                int size = Integer.valueOf(pamrams.get("distance"));
+                int distance = distances[size];
+                lastDistance = distance;
+                requestGoods(Integer.valueOf(pamrams.get("category1")),Integer.valueOf(pamrams.get("category2")),distance);
 
             }
         });
@@ -331,26 +331,30 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
 
     }
 
-    //根据类别获取物品
-    public void requestGoods(int category1, int category2){
 
-        /*Map<String,Object> params = new HashMap<String,Object>();
+    //根据类别获取物品
+    public void requestGoods(int category1, int category2 , int distance){
+
+        Map<String,Object> params = new HashMap<String,Object>();
         params.put("category1",category1 + "");
         params.put("category2",category2 + "");
+        params.put("distance",distance + "");
+        params.put("myLatitude",locationMarker.getPosition().latitude + "");
+        params.put("myLongitude",locationMarker.getPosition().longitude + "");
 
-        okHttpHelpetr.get(Contans.API.CATEGORY, params,new SpotsCallBack<Page<Goods>>(MapActivity.this) {
+        okHttpHelpetr.get(Contans.API.FINDBYMAPCATOGERY, params,new SpotsCallBack<List<Goods>>(MapActivity.this) {
 
             @Override
-            public void onSuccess(Response response, Page<Goods> goodses) {
-                setMark(goodses.getList());
-                ToastUtils.show(MapActivity.this,""+goodses.getList().size());
+            public void onSuccess(Response response, List<Goods> goodses) {
+                setMark(goodses);
+                //ToastUtils.show(MapActivity.this,""+goodses.size());
             }
 
             @Override
             public void onError(Response response, int code, Exception e) {
                 ToastUtils.show(MapActivity.this,"error");
             }
-        });*/
+        });
 
     }
 
@@ -429,6 +433,15 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
 
                 //取出经纬度
                 LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
+
+
+                aMap.addCircle(new CircleOptions().
+                        center(new LatLng(aMapLocation.getLongitude(),aMapLocation.getLatitude())).
+                        radius(lastDistance).
+                        fillColor(R.color.mediumpurple).
+                        strokeColor(R.color.mediumpurple).
+                        strokeWidth(15));
+                ToastUtils.show(MapActivity.this,""+lastDistance);
 
                 //添加Marker显示定位位置
                 if (locationMarker == null) {

@@ -157,6 +157,8 @@ public class ZuZuApplication extends Application {
 
         @Override
         public boolean onReceivePushMessage(PushNotificationMessage pushNotificationMessage) {
+            ToastUtils.show(ZuZuApplication.this,"有消息");
+
             return false;
         }
     }

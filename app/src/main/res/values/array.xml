@@ -6,6 +6,15 @@
 
         <item>@drawable/icon_physical</item>
         <item>@drawable/icon_time</item>
-
     </array>
+
+    <array name="select_distance_num" >
+        <item>1000</item>
+        <item>5000</item>
+        <item>10000</item>
+        <item>20000</item>
+        <item>50000</item>
+        <item>100000</item>
+    </array>
+
 </resources>

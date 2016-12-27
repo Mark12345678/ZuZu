@@ -75,6 +75,9 @@ public class Contans {
 
         //获取用户头像
         public static final String GETUSERHEAD = BASE_URL + "getHead";
+
+        //获取地图的分类
+        public static final String FINDBYMAPCATOGERY = BASE_URL + "findByMayCategory";
     }
 
 }
