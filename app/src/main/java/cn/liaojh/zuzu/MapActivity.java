@@ -348,6 +348,9 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
             public void onSuccess(Response response, List<Goods> goodses) {
                 setMark(goodses);
                 //ToastUtils.show(MapActivity.this,""+goodses.size());
+                if(mLocationClient != null){
+                    mLocationClient.startLocation();
+                }
             }
 
             @Override
@@ -430,7 +433,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         if (aMapLocation != null) {
             if (aMapLocation.getErrorCode() == 0) {
                 //定位成功回调信息，设置相关消息
-
+                ToastUtils.show(MapActivity.this,"&&");
                 //取出经纬度
                 LatLng latLng = new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude());
 
