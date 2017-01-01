@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,14 +29,9 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.Buffer;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import cn.liaojh.zuzu.ChatListActivity;
@@ -47,7 +44,6 @@ import cn.liaojh.zuzu.bean.User;
 import cn.liaojh.zuzu.http.OkHttpHelper;
 import cn.liaojh.zuzu.http.SpotsCallBack;
 import cn.liaojh.zuzu.utils.BitmapUtil;
-import cn.liaojh.zuzu.utils.ToastUtils;
 import de.hdodenhof.circleimageview.CircleImageView;
 import dmax.dialog.SpotsDialog;
 
@@ -72,6 +68,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
     @ViewInject(R.id.txt_chat)
     TextView txt_chat;
 
+    @ViewInject(R.id.txt_to_be_recycled)
+    TextView txt_to_be_recycled;
+
     @ViewInject(R.id.btn_logout)
     Button btn_logout;
 
@@ -81,16 +80,17 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
     @ViewInject(R.id.txt_for_rent)
     TextView txt_for_rent;
 
+    @ViewInject(R.id.txt_GoodsOut)
+    TextView txt_GoodsOut;
+
+    @ViewInject(R.id.txt_record)
+    TextView txt_record;
+
     OkHttpHelper okHttpHelper;
 
     SpotsDialog releaseDialog;
 
     final ZuZuApplication zuZuApplication = ZuZuApplication.getInstance();
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_mine;
-    }
 
     @Override
     public void initView(View view, Bundle savedInstanceState) {
@@ -108,6 +108,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         }
 
         txt_for_rent.setOnClickListener(this);
+        txt_GoodsOut.setOnClickListener(this);
+        txt_to_be_recycled.setOnClickListener(this);
+        txt_record.setOnClickListener(this);
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +123,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
 
     }
 
-
+    //根据数据库中的记录，设置用户的头像
     private void setUserHead(ImageView view){
         if(ZuZuApplication.getInstance().getUser() != null){
             Map<String,Object> params = new HashMap<String,Object>();
@@ -149,6 +152,14 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
+
+        SearchFragment fragment = new SearchFragment();
+        FragmentManager fmanger =getFragmentManager();
+        //开启一个事务
+        FragmentTransaction ftran =fmanger.beginTransaction();
+        //创建一个bundle对象，往里面设置参数
+        Bundle bundle = new Bundle();
+
         switch (view.getId()){
             case R.id.img_head:
                 //点击头像时，如果没有登录的话，则进去登录界面
@@ -170,26 +181,62 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
                 }
                 break;
             case R.id.txt_for_rent:
-                SearchFragment fragment = new SearchFragment();
-                FragmentManager fmanger =getFragmentManager();
-                //开启一个事务
-                FragmentTransaction ftran =fmanger.beginTransaction();
+
                 //往Activity中添加fragment
                 ftran.add(R.id.mine_test,fragment);
-                //创建一个bundle对象，往里面设置参数
-                Bundle bundle = new Bundle();
-                bundle.putString("title","发布的物品");
+
+                bundle.putString("title","可租物品");
                 bundle.putInt(Contans.SEARCHFRAGMENT_TYPE,Contans.RELEASE_GOODS);
                 //吧bundle当住参数，设置给fragment
                 fragment.setArguments(bundle);
                 ftran.addToBackStack("for_rent");
                 ftran.commit();
                 break;
+
+            case  R.id.txt_GoodsOut:   //待发货
+
+                //往Activity中添加fragment
+                ftran.add(R.id.mine_test,fragment);
+
+                bundle.putString("title","待发货物品");
+                bundle.putInt(Contans.SEARCHFRAGMENT_TYPE,Contans.WAITCOLLECT_GOODS);
+                //吧bundle当住参数，设置给fragment
+                fragment.setArguments(bundle);
+                ftran.addToBackStack("wait_out");
+                ftran.commit();
+
+                break;
+            case R.id.txt_to_be_recycled:
+                //往Activity中添加fragment
+                ftran.add(R.id.mine_test,fragment);
+
+                bundle.putString("title","待收回物品");
+                bundle.putInt(Contans.SEARCHFRAGMENT_TYPE,Contans.WAITBACKGOODS);
+                //吧bundle当住参数，设置给fragment
+                fragment.setArguments(bundle);
+                ftran.addToBackStack("wait_back");
+                ftran.commit();
+
+                break;
+            case R.id.txt_record:
+                //往Activity中添加fragment
+                HIstoryRentFragment hIstoryRentFragment = new HIstoryRentFragment();
+                ftran.add(R.id.mine_test,hIstoryRentFragment);
+
+                bundle.putString("title","租赁历史");
+                bundle.putInt(Contans.SEARCHFRAGMENT_TYPE,Contans.RECORD);
+                //吧bundle当住参数，设置给fragment
+                fragment.setArguments(bundle);
+                ftran.addToBackStack("record");
+                ftran.commit();
+
+                break;
             default:
                 break;
         }
     }
 
+    //选择跟换头像的提示窗口
     private void AddImageDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("添加图片");
@@ -227,7 +274,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         builder.create().show();
     }
 
-
     private String pathImage;                     //选择图片路径
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -264,7 +310,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
 
                 pathImage = path;
                 showPhoto(pathImage);
-
             }
 
         }else if( resultCode == TAKE_PHOTO){
@@ -278,11 +323,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
         if(!TextUtils.isEmpty(pathImage)) {
             Bitmap addbmp = BitmapUtil.pressPicture(getActivity(), pathImage);
             release(addbmp);
-            //headView.setImageBitmap(addbmp);
-            setUserHead(headView);
+            headView.setImageBitmap(addbmp);
         }
     }
 
+    //上传头像
     public void release(Bitmap bitmap){
 
         releaseDialog = new SpotsDialog(getActivity());
@@ -325,5 +370,11 @@ public class MineFragment extends BaseFragment implements View.OnClickListener{
                 releaseDialog.dismiss();
             }
         });
+    }
+
+    //定义布局
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_mine;
     }
 }

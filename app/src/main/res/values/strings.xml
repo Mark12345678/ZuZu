@@ -10,6 +10,7 @@
     <string name="for_rent">可租的物品</string>
     <string name="chat">聊天记录</string>
     <string name="record">租赁记录</string>
+    <string name="goodsout">待发货</string>
     <string name="logout">退出登录</string>
     <string name="smssdk_resend_identify_code">发送验证码</string>
     <string name="title_activity_release">ReleaseActivity</string>

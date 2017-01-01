@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/history_text1"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="@color/colorPrimary"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:gravity="center"
+            android:background="@drawable/gradient_bian_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/history_text_out"
+                android:layout_gravity="center"
+                android:text="租出"
+                android:gravity="center"
+                android:background="@drawable/gradient_stroke_white"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="40dp"
+                android:layout_height="25dp" />
+
+            <TextView
+                android:id="@+id/history_text_in"
+                android:layout_gravity="center"
+                android:text="租入"
+                android:gravity="center"
+                android:background="@drawable/gradient_bian_white"
+                android:textColor="@color/white"
+                android:layout_width="40dp"
+                android:layout_height="25dp" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.cjj.MaterialRefreshLayout
+        android:layout_below="@id/history_text1"
+        android:id="@+id/history_materialRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        app:overlay="true"
+        app:wave_show="true"
+        app:wave_color="#90ffffff"
+        app:progress_colors="@array/material_colors"
+        app:wave_height_type="higher">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/history_recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </com.cjj.MaterialRefreshLayout>
+
+</RelativeLayout>

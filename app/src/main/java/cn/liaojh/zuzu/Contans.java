@@ -12,8 +12,21 @@ public class Contans {
 
     public static final String USER_JSON="user_json";
 
+    //发布过的物品
     public static final int RELEASE_GOODS = 3;
+    //搜索的物品
     public static final int SEARCH_GOODS = 4;
+    //等待发货的物品
+    public static final int WAITCOLLECT_GOODS = 5;
+    //等待收回的物品
+    public static final int WAITBACKGOODS = 6;
+    //租赁历史
+    public static final int RECORD = 7;
+    //租赁进来
+    public static final int RECORD_IN = 8;
+    //租赁出去
+    public static final int RECORD_OUT = 9;
+
     public static final String SEARCHFRAGMENT_TYPE = "SearchFragment_type";
 
     public static class API{
@@ -96,6 +109,54 @@ public class Contans {
 
         //删除指定物品的某张图片
         public static final String DELETEGOODSPIC = BASE_URL + "deleteGoodsPic";
+
+        //显示用户被授权的物品
+        public static final String BYACCREDITSHOW = BASE_URL + "byAccreditShow";
+
+        //用户确认支付
+        public static final String USERPAYSURE = BASE_URL + "usetPaySure";
+
+        //显示物主授权用户showAccredit
+        public static final String SHOWACCREDIT = BASE_URL + "showAccredit";
+
+        //物主添加授权用户 masterAddAccredit
+        public static final String  ADDACCREDIT = BASE_URL + "masterAddAccredit";
+
+        //物主删除授权用户 deleteAccredit
+        public static final String DELETEACCREDIT = BASE_URL + "deleteAccredit";
+
+        //物主确认付款 masterPaySure
+        public static final String MASTERSUREPAY = BASE_URL + "masterPaySure";
+
+        //获取待发货物品 showWaitCollect
+        public static final String SHOWWAITCOLLECT = BASE_URL + "showWaitCollect";
+
+        //获取物主待发货物品 masterShowWaitOut
+        public static final String MASTERSHOWWAITOUT = BASE_URL + "masterShowWaitOut";
+
+        //用户确认收货userSureWaitCollect
+        public static final String USERSUREWAITCOLLECT = BASE_URL + "userSureWaitCollect";
+
+        //物主确认已发货 masterSureWaitCollect
+        public static final String MASTERSUREWAITCOLLECT = BASE_URL + "masterSureWaitCollect";
+
+        //用户待还物品
+        public static final String GOODSWAITBACK = BASE_URL + "showWaitBack";
+
+        //用户确认物品已还 userSureWaitBack
+        public static final String USERSUREWAITBACK = BASE_URL + "userSureWaitBack";
+
+        //物主待收物品 masterShowWaitBack
+        public static final String MASTERSHOWWAITBACK = BASE_URL + "masterShowWaitBack";
+
+        //物主确认已经收到物品 masterSureWaitBack
+        public static final String MASTERSUREWAITBACK = BASE_URL + "masterSureWaitBack";
+
+        //用户租过进来的物品 InRentGoods
+        public static final String INRENTGOODS = BASE_URL + "InRentGoods";
+
+        //用户租过出去的物品 OutRentGoods
+        public static final String OUTRENTGOODS = BASE_URL + "OutRentGoods";
     }
 
 }

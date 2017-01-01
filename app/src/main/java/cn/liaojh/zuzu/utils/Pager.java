@@ -170,7 +170,6 @@ public  class Pager<T> {
             super(context);
 
             super.mType = builder.mType;
-
         }
 
         @Override
@@ -206,6 +205,7 @@ public  class Pager<T> {
         @Override
         public void onSuccess(Response response, Page<T> tPage) {
 
+            Log.i("请求成功嘎嘎嘎","=====================");
             builder.pageIndex = tPage.getCurryPage();
             builder.pageSize = tPage.getPageSize();
             builder.totalPage = tPage.getTotalPage();

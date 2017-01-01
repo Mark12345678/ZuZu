@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <cn.liaojh.zuzu.widget.MyToolBar
+        android:id="@+id/addaccredit_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        app:isShowLeftButton="true"
+        android:minHeight="50dp"/>
+
+    <ListView
+        android:layout_below="@id/addaccredit_toolbar"
+        android:id="@+id/addaccredit_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+    <LinearLayout
+        android:id="@+id/addaccredit_ll"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_height="50dp">
+
+        <EditText
+            android:inputType="number"
+            android:layout_weight="9"
+            android:id="@+id/addaccredit_edit"
+            android:layout_width="match_parent"
+            android:textColor="@color/gray"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:id="@+id/addaccredit_sure"
+            android:text="添加"
+            android:textSize="18sp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="70dp"
+            android:layout_marginBottom="5dp"
+            android:layout_height="35dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
