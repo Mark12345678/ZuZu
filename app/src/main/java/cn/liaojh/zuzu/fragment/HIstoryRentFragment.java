@@ -1,8 +1,9 @@
 package cn.liaojh.zuzu.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cjj.MaterialRefreshLayout;
@@ -42,6 +44,9 @@ public class HIstoryRentFragment extends Fragment implements View.OnClickListene
     @ViewInject(R.id.history_text_out)
     TextView history_text_out;
 
+    @ViewInject(R.id.history_back)
+    ImageView history_back;
+
     @ViewInject(R.id.history_recycleView)
     private RecyclerView mRecyclerView;
 
@@ -51,25 +56,54 @@ public class HIstoryRentFragment extends Fragment implements View.OnClickListene
     View view;
 
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_history,container,false);
         ViewUtils.inject(this, view);
 
-        getRentOutGoods();
+        if(ZuZuApplication.getInstance().getUser() != null){
+            getRentOutGoods();
+        }
+
+        history_text_out.setOnClickListener(this);
+        history_text_in.setOnClickListener(this);
+        history_back.setOnClickListener(this);
 
         return view;
     }
 
-
     @Override
     public void onClick(View view) {
 
+        if(ZuZuApplication.getInstance().getUser() != null){
+            switch (view.getId()){
+                case R.id.history_back:
+                    closeView();
+                    break;
+
+                case R.id.history_text_in:
+                    getRentInGoods();
+                    break;
+
+                case R.id.history_text_out:
+                    getRentOutGoods();
+                    break;
+            }
+        }
+
+    }
+
+    public void closeView(){
+        FragmentManager fmanger =getFragmentManager();
+        FragmentTransaction ftran =fmanger.beginTransaction();
+        ftran.remove(HIstoryRentFragment.this);
+        ftran.commit();
     }
 
     public void getRentOutGoods(){
+
+        mRecyclerView.setAdapter(null);
 
         PagerBuilder builder = new PagerBuilder();
         builder.setUrl(Contans.API.OUTRENTGOODS);
@@ -83,6 +117,23 @@ public class HIstoryRentFragment extends Fragment implements View.OnClickListene
         Pager pager = new Pager(builder);
         pager.request();
 
+    }
+
+    public void getRentInGoods(){
+
+        mRecyclerView.setAdapter(null);
+
+        PagerBuilder builder = new PagerBuilder();
+        builder.setUrl(Contans.API.INRENTGOODS);
+        builder.setCanLoadMore(true);
+        builder.setRefreshLayout(mRefreshLayout);
+        builder.setOnPageListener(new loadRentOutMessage());
+        builder.setPageSize(5);
+        builder.putParam("userId", ZuZuApplication.getInstance().getUser().getId());
+        builder.build(getContext(),new TypeToken<Page<HistoryRent>>(){}.getType());
+
+        Pager pager = new Pager(builder);
+        pager.request();
     }
 
     HistoryRentAdapter historyRentAdapter;
@@ -116,4 +167,5 @@ public class HIstoryRentFragment extends Fragment implements View.OnClickListene
             mRecyclerView.scrollToPosition(historyRentAdapter.getmDatas().size());
         }
     }
+
 }

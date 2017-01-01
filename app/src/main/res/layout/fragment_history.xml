@@ -6,43 +6,59 @@
     android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/history_text1"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:background="@color/colorPrimary"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
+
+            android:layout_width="match_parent"
             android:gravity="center"
-            android:background="@drawable/gradient_bian_white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:background="@color/colorPrimary"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
 
-            <TextView
-                android:id="@+id/history_text_out"
-                android:layout_gravity="center"
-                android:text="租出"
-                android:gravity="center"
-                android:background="@drawable/gradient_stroke_white"
-                android:textColor="@color/colorPrimary"
-                android:layout_width="40dp"
-                android:layout_height="25dp" />
-
-            <TextView
-                android:id="@+id/history_text_in"
-                android:layout_gravity="center"
-                android:text="租入"
+            <LinearLayout
                 android:gravity="center"
                 android:background="@drawable/gradient_bian_white"
-                android:textColor="@color/white"
-                android:layout_width="40dp"
-                android:layout_height="25dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/history_text_out"
+                    android:layout_gravity="center"
+                    android:text="租出"
+                    android:gravity="center"
+                    android:background="@drawable/gradient_stroke_white"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="45dp"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:id="@+id/history_text_in"
+                    android:layout_gravity="center"
+                    android:text="租入"
+                    android:gravity="center"
+                    android:background="@drawable/gradient_bian_white"
+                    android:textColor="@color/white"
+                    android:layout_width="45dp"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/history_back"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/icon_back_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
 
     <com.cjj.MaterialRefreshLayout
         android:layout_below="@id/history_text1"
